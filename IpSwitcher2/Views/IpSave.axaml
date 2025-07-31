@@ -1,0 +1,29 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:IpSwitcher2.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="IpSwitcher2.Views.IpSave"
+        x:DataType="vm:IpSaveViewModel"
+        Width="400" Height="300"
+        WindowStartupLocation="CenterOwner"
+        TransparencyLevelHint="Mica"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        Title="Save"
+        x:CompileBindings="True">
+    <StackPanel Margin="20">
+        <TextBlock Margin="0 5">Name:</TextBlock>
+        <TextBox GotFocus="Input_OnGotFocus" LostFocus="Input_OnLostFocus"
+                 Name="Name" Text="{Binding Name}" Margin="0 0 0 5" />
+        <TextBlock Margin="0 5">IP:</TextBlock>
+        <TextBox GotFocus="Input_OnGotFocus" LostFocus="Input_OnLostFocus"
+                 Name="IpBox" Text="{Binding Ip}" Margin="0 0 0 5" />
+        <TextBlock Margin="0 5">Subnet Mask:</TextBlock>
+        <TextBox GotFocus="Input_OnGotFocus" LostFocus="Input_OnLostFocus"
+                 Name="SubnetBox" Text="{Binding Subnet}" />
+        <Button Name="Save" Content="Save" Margin="0 10" HorizontalAlignment="Center"
+                Click="Save_OnClick" />
+    </StackPanel>
+</Window>

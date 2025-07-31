@@ -1,0 +1,105 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:IpSwitcher2.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="IpSwitcher2.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        TransparencyLevelHint="Mica"
+        Background="Transparent"
+        Title="IP Switcher"
+        x:CompileBindings="True">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*, Auto">
+        <ListBox ItemsSource="{Binding Addresses}" Grid.Row="0" Grid.Column="0"
+                 Background="Transparent" Margin="20" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>
+                            <Run Text="{Binding Name}" />
+                            <Run Text=":" />
+                            <LineBreak />
+                            <Run Text="{Binding Ip}" />
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+            <StackPanel Orientation="Vertical" Margin="20">
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Margin="0 5" Grid.Column="0">
+                        <Run>Name: </Run>
+                        <LineBreak />
+                        <Run Text="{Binding InterfaceName}" FontWeight="Bold" />
+                    </TextBlock>
+                    <CheckBox Margin="0 5" Grid.Column="1" IsCheckedChanged="ToggleButton_OnIsCheckedChanged"
+                              Name="DhcpCheckBox" IsEnabled="False"
+                              IsChecked="{Binding IsDhcp}">
+                        DHCP Enabled
+                    </CheckBox>
+                </Grid>
+                <TextBlock Margin="0 5">IP:</TextBlock>
+                <TextBox GotFocus="Input_OnGotFocus" LostFocus="Input_OnLostFocus"
+                         Name="IpBox" Text="{Binding Ip}" Margin="0 0 0 5" />
+                <TextBlock Margin="0 5">Subnet Mask:</TextBlock>
+                <TextBox GotFocus="Input_OnGotFocus" LostFocus="Input_OnLostFocus"
+                         Name="SubnetBox" Text="{Binding Subnet}" />
+                <Grid Margin="0 20" ColumnDefinitions="*,*,Auto, Auto">
+                    <Button Name="IpButton" IsEnabled="False" Click="Ip_OnClick" Content="Set IP"
+                            Initialized="Ip_OnInitialized" Grid.Column="0" />
+                    <Button Name="Refresh" Content="Refresh Lists" Grid.Column="1"
+                            Click="Refresh_OnClick" />
+                    <Button Name="Save" Grid.Column="2" Content="Save Settings"
+                            Click="Save_OnClick" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <ListBox ItemsSource="{Binding Saved}"
+                 Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
+                 Background="Transparent" Margin="20"
+                 Tapped="SavedList_OnTapped"
+                 IsEnabled="True" Name="SavedList">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock>
+                                <Run FontWeight="Bold" Text="{Binding Name}" />
+                                <LineBreak />
+                                <Run FontWeight="DemiBold">IP: </Run>
+                                <Run Text="{Binding Ip}" />
+                                <LineBreak />
+                                <Run FontWeight="DemiBold">Subnet: </Run>
+                                <Run Text="{Binding Subnet}" />
+                            </TextBlock>
+                            <Button Grid.Column="1"
+                                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                                    Click="DeleteButton_Click"
+                                    Margin="10,0,0,0">
+                                <PathIcon Data="{StaticResource TrashIcon}" />
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" Margin="0, 20" HorizontalAlignment="Center">
+            <Button Name="Import" Content="Import" Click="Import_OnClick" Margin="0,0,15,0" />
+            <Button Name="Export" Content="Export" Click="Export_OnClick" />
+        </StackPanel>
+
+    </Grid>
+</Window>
