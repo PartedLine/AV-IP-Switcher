@@ -1,4 +1,6 @@
-﻿namespace IpSwitcher2.Classes;
+﻿using System.Security.Principal;
+
+namespace IpSwitcher2.Classes;
 
 public class Validations
 {

@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using IpSwitcher2.Classes;
 using IpSwitcher2.ViewModels;
 using IpSwitcher2.Views;
 
@@ -35,6 +36,13 @@ public class App : Application
             {
                 DataContext = new MainWindowViewModel()
             };
+            
+            // Check for updates
+            desktop.MainWindow.Activated += async (sender, args) =>
+            {
+                await UpdateChecker.CheckForUpdates();
+            };
+
         }
 
         base.OnFrameworkInitializationCompleted();
