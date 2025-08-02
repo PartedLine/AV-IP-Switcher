@@ -4,7 +4,7 @@
 ![GitHub License](https://img.shields.io/github/license/PartedLine/AV-IP-Switcher?style=for-the-badge)
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PartedLine/AV-IP-Switcher/total?style=for-the-badge)](https://github.com/PartedLine/AV-IP-Switcher/releases/latest/download/IpSwitcher_v1-0_Setup.exe)
 
-[Download here!](https://github.com/PartedLine/AV-IP-Switcher/releases/latest/download/IpSwitcher_v1-0_Setup.exe)
+[Download here!](https://github.com/PartedLine/AV-IP-Switcher/releases/download/1.1.0/IpSwitcher_v1-1-0_Setup.exe)
 
 An easy to use IP switcher with a save feature for the AV world.
 
