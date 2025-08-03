@@ -2,7 +2,7 @@
 # AV IP Switcher
 
 ![GitHub License](https://img.shields.io/github/license/PartedLine/AV-IP-Switcher?style=for-the-badge)
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PartedLine/AV-IP-Switcher/total?style=for-the-badge)](https://github.com/PartedLine/AV-IP-Switcher/releases/latest/download/IpSwitcher_v1-0_Setup.exe)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PartedLine/AV-IP-Switcher/total?style=for-the-badge)](https://github.com/PartedLine/AV-IP-Switcher/releases/latest/download/IpSwitcher_v1-1-0_Setup.exe)
 
 [Download here!](https://github.com/PartedLine/AV-IP-Switcher/releases/download/1.1.0/IpSwitcher_v1-1-0_Setup.exe)
 
@@ -27,4 +27,8 @@ Download the setup file from the [Releases tab](https://github.com/PartedLine/AV
 
 #### Why does this program need elevated privileges?
 
-Netsh requires it in order to change IP addresses
+Netsh requires it in order to change IP addresses.
+
+#### It doesn't show the interface I want to change!
+
+The program only shows interfaces that already have an IP, which is usually only those already in a network. Connect another device to whatever port you want to change, wait a bit and refresh the list.
