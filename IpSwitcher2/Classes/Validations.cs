@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 namespace IpSwitcher2.Classes;
 
@@ -9,10 +11,13 @@ public class Validations
 #if DEBUG
         return true;
 #else
+        if (!OperatingSystem.IsWindows()) return geteuid() == 0;
         using WindowsIdentity identity = WindowsIdentity.GetCurrent();
         var principal = new WindowsPrincipal(identity);
         return principal.IsInRole(WindowsBuiltInRole.Administrator);
 
+        [DllImport("libc")]
+        static extern uint geteuid();
 #endif
     }
 

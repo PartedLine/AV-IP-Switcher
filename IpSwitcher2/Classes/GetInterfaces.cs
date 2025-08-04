@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -65,6 +66,11 @@ public class GetInterfaces
 
     private static bool HasDhcp(NetworkInterface networkInterface)
     {
+        if (OperatingSystem.IsMacOS())
+        {
+            return false;
+        }
+
         var dhcp = networkInterface.GetIPProperties().DhcpServerAddresses;
         return dhcp.Count > 0;
     }
