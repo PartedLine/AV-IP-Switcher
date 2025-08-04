@@ -73,7 +73,7 @@ public partial class MainWindow : Window
                 return;
             }
 
-            if (string.IsNullOrEmpty(subnet) || !Validations.IsValidIpv4(subnet))
+            if (string.IsNullOrEmpty(subnet) || !Validations.IsValidSubnetMask(subnet))
             {
                 var box = MessageBoxManager
                     .GetMessageBoxStandard("Error", "Invalid subnet", ButtonEnum.Ok, MsBox.Avalonia.Enums.Icon.Error);

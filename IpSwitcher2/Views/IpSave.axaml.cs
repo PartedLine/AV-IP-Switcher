@@ -58,7 +58,7 @@ public partial class IpSave : Window
             return;
         }
 
-        if (string.IsNullOrEmpty(SubnetBox.Text) || !Validations.IsValidIpv4(SubnetBox.Text))
+        if (string.IsNullOrEmpty(SubnetBox.Text) || !Validations.IsValidSubnetMask(SubnetBox.Text))
         {
             var box = MessageBoxManager
                 .GetMessageBoxStandard("Error", "Invalid subnet",
