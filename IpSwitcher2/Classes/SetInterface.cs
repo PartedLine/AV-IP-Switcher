@@ -28,6 +28,7 @@ public class SetInterface
         }
         else if (OperatingSystem.IsLinux())
         {
+            // TODO: Test
             var prefix = GetPrefix(subnet);
             startInfo = new ProcessStartInfo
             {
@@ -40,6 +41,8 @@ public class SetInterface
         }
         else if (OperatingSystem.IsMacOS())
         {
+            // TODO: networksetup does not like the names currently given, might need to grab interfaces
+            // using networksetup itself.
             startInfo = new ProcessStartInfo
             {
                 FileName = "networksetup",
@@ -69,6 +72,7 @@ public class SetInterface
         }
         else if (OperatingSystem.IsLinux())
         {
+            // TODO: Test
             startInfo = new ProcessStartInfo
             {
                 FileName = "/bin/bash",
@@ -80,6 +84,8 @@ public class SetInterface
         }
         else if (OperatingSystem.IsMacOS())
         {
+            // TODO: networksetup does not like the names currently given, might need to grab interfaces
+            // using networksetup itself.
             startInfo = new ProcessStartInfo
             {
                 FileName = "networksetup",
