@@ -68,7 +68,30 @@ public class GetInterfaces
     {
         if (OperatingSystem.IsMacOS())
         {
-            return false;
+            try
+            {
+                var startInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "ipconfig",
+                    Arguments = $"getpacket {networkInterface.Name}",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using var process = System.Diagnostics.Process.Start(startInfo);
+                if (process == null) return false;
+
+                var output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                // Output means DHCP, no output no DHCP
+                return !string.IsNullOrWhiteSpace(output);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         var dhcp = networkInterface.GetIPProperties().DhcpServerAddresses;
