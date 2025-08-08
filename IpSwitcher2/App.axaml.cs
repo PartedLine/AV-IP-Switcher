@@ -36,6 +36,13 @@ public class App : Application
             {
                 DataContext = new MainWindowViewModel()
             };
+
+            desktop.MainWindow.Closing += (sender, args) =>
+            {
+                args.Cancel = true;
+
+                desktop.MainWindow.Hide();
+            };
             
             // Check for updates
             desktop.MainWindow.Activated += async (sender, args) =>
@@ -56,5 +63,25 @@ public class App : Application
 
         // remove each entry found
         foreach (var plugin in dataValidationPluginsToRemove) BindingPlugins.DataValidators.Remove(plugin);
+    }
+
+    private void TrayIcon_OnClicked(object? sender, EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            ShowMainWindow(desktop);
+        }
+    }
+    
+    private void ShowMainWindow(IClassicDesktopStyleApplicationLifetime desktop)
+    {
+        desktop.MainWindow?.Show();
+        desktop.MainWindow?.Activate();
+    }
+
+    private void ExitButton_OnClicked(object? sender, EventArgs e)
+    {
+        var desktop = ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        desktop?.Shutdown();
     }
 }

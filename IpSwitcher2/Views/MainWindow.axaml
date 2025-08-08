@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="IpSwitcher2.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/icons8-ethernet-96.png"
         TransparencyLevelHint="Mica"
         Background="Transparent"
         Title="IP Switcher"
@@ -17,10 +17,16 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
-
-    <Grid ColumnDefinitions="*,*" RowDefinitions="*,*, Auto">
-        <ListBox ItemsSource="{Binding Addresses}" Grid.Row="0" Grid.Column="0"
-                 Background="Transparent" Margin="20" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+    
+    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto, Auto,*,*, Auto">
+        <Menu Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0 0 0 3">
+            <MenuItem Header="About" Click="MenuItem_OnClick"></MenuItem>
+        </Menu>
+        
+        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></Separator>
+        
+        <ListBox ItemsSource="{Binding Addresses}" Grid.Row="2" Grid.Column="0"
+                 Background="Transparent" Margin="20 10 20 20" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -35,7 +41,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+        <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.RowSpan="2">
             <StackPanel Orientation="Vertical" Margin="20">
                 <Grid ColumnDefinitions="*,Auto">
                     <TextBlock Margin="0 5" Grid.Column="0">
@@ -67,8 +73,8 @@
         </ScrollViewer>
 
         <ListBox ItemsSource="{Binding Saved}"
-                 Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
-                 Background="Transparent" Margin="20"
+                 Grid.Column="1" Grid.Row="2" Grid.RowSpan="2"
+                 Background="Transparent" Margin="20 10 20 20"
                  Tapped="SavedList_OnTapped"
                  IsEnabled="True" Name="SavedList">
             <ListBox.ItemTemplate>
@@ -96,7 +102,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" Margin="0, 20" HorizontalAlignment="Center">
+        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" Margin="0, 20" HorizontalAlignment="Center">
             <Button Name="Import" Content="Import" Click="Import_OnClick" Margin="0,0,15,0" />
             <Button Name="Export" Content="Export" Click="Export_OnClick" />
         </StackPanel>

@@ -177,4 +177,10 @@ public partial class MainWindow : Window
                 if (DataContext is MainWindowViewModel viewModel) viewModel.RefreshSavedItems();
             });
     }
+
+    private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
+    {
+        var aboutWindow = new About();
+        aboutWindow.ShowDialog(this);
+    }
 }
