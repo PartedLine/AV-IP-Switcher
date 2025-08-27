@@ -101,7 +101,6 @@ internal sealed class Program
                 if (!string.IsNullOrEmpty(message))
                 {
                     Console.WriteLine($"Received message: {message}");
-                    // TODO: Show window
                     await Dispatcher.UIThread.InvokeAsync(ShowMainWindow);
                 }
 
