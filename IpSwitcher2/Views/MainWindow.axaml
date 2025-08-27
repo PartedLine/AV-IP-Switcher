@@ -19,8 +19,9 @@
     </Design.DataContext>
     
     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto, Auto,*,*, Auto">
-        <Menu Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0 0 0 3">
+        <Menu Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="12 0 12 3">
             <MenuItem Header="About" Click="MenuItem_OnClick"></MenuItem>
+            <MenuItem Header="Exit" Click="MenuExit_OnClick"></MenuItem>
         </Menu>
         
         <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></Separator>

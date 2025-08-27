@@ -17,18 +17,4 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
-    
-    <TrayIcon.Icons>
-        <TrayIcons>
-            <TrayIcon Icon="/Assets/icons8-ethernet-96.png"
-                      ToolTipText="IP Switcher" Clicked="TrayIcon_OnClicked">
-                <TrayIcon.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Open" Click="TrayIcon_OnClicked"></NativeMenuItem>
-                        <NativeMenuItem Header="Exit" Click="ExitButton_OnClicked"></NativeMenuItem>
-                    </NativeMenu>
-                </TrayIcon.Menu>
-            </TrayIcon>
-        </TrayIcons>
-    </TrayIcon.Icons>
 </Application>

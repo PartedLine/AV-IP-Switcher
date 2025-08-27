@@ -1,8 +1,12 @@
 using System;
 using System.Threading;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using IpSwitcher2.Classes;
 using IpSwitcher2.Models;
 using IpSwitcher2.ViewModels;
@@ -13,10 +17,58 @@ namespace IpSwitcher2.Views;
 
 public partial class MainWindow : Window
 {
+    private TrayIcon? _trayIcon;
+    
     public MainWindow()
     {
         InitializeComponent();
         DataContext = new MainWindowViewModel();
+        SetupTrayIcon();
+    }
+
+    private void SetupTrayIcon()
+    {
+        _trayIcon = new TrayIcon()
+        {
+            Icon = new WindowIcon(
+                new Bitmap(AssetLoader.Open(new Uri("avares://IpSwitcher2/Assets/icons8-ethernet-96.png")))),
+            ToolTipText = "IP Switcher"
+        };
+
+        var menu = new NativeMenu();
+
+        // TODO: Add IP and Subnet info on Tray menu
+        
+        // var seperatorA = new NativeMenuItemSeparator();
+        // menu.Add(seperatorA);
+
+        var openMenuItem = new NativeMenuItem("Open");
+        openMenuItem.Click += TrayIcon_OnClicked;
+        menu.Add(openMenuItem);
+
+        var exitMenuItem = new NativeMenuItem("Exit");
+        exitMenuItem.Click += ExitButton_OnClicked;
+        menu.Add(exitMenuItem);
+
+        _trayIcon.Menu = menu;
+        _trayIcon.Clicked += TrayIcon_OnClicked;
+        
+        TrayIcon.SetIcons(Application.Current, new TrayIcons {_trayIcon});
+    }
+    
+    private void TrayIcon_OnClicked(object? sender, EventArgs e)
+    {
+        Show();
+        WindowState = WindowState.Normal;
+        Activate();
+    }
+
+    private void ExitButton_OnClicked(object? sender, EventArgs e)
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
+        {
+            lifetime.Shutdown();
+        }
     }
 
     private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -182,5 +234,13 @@ public partial class MainWindow : Window
     {
         var aboutWindow = new About();
         aboutWindow.ShowDialog(this);
+    }
+
+    private void MenuExit_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
+        {
+            lifetime.Shutdown();
+        }
     }
 }
