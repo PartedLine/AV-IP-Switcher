@@ -49,7 +49,6 @@ public class App : Application
             {
                 await UpdateChecker.CheckForUpdates();
             };
-
         }
 
         base.OnFrameworkInitializationCompleted();
