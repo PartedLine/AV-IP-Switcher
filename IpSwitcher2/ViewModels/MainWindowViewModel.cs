@@ -17,7 +17,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        Addresses = GetInterfaces.GetInterface();
+        Addresses = GetInterfaces.GetInterface(true);
         Saved = GetSaved.GetSavedIps();
     }
 
@@ -83,6 +83,6 @@ public partial class MainWindowViewModel : ViewModelBase
     public void RefreshInterfaces()
     {
         Addresses.Clear();
-        Addresses = GetInterfaces.GetInterface();
+        Addresses = GetInterfaces.GetInterface(true);
     }
 }

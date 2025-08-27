@@ -7,22 +7,28 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Avalonia.Threading;
 using IpSwitcher2.Classes;
 using IpSwitcher2.Models;
 using IpSwitcher2.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using Timer = System.Timers.Timer;
 
 namespace IpSwitcher2.Views;
 
 public partial class MainWindow : Window
 {
     private TrayIcon? _trayIcon;
+    private readonly Timer _refreshTimer;
     
     public MainWindow()
     {
         InitializeComponent();
         DataContext = new MainWindowViewModel();
+        _refreshTimer = new Timer(5000);
+        _refreshTimer.Elapsed += (_, _) => Dispatcher.UIThread.InvokeAsync(UpdateTrayMenu);
+        _refreshTimer.Start();
         SetupTrayIcon();
     }
 
@@ -35,13 +41,59 @@ public partial class MainWindow : Window
             ToolTipText = "IP Switcher"
         };
 
+        UpdateTrayMenu();
+        
+        TrayIcon.SetIcons(Application.Current, new TrayIcons {_trayIcon});
+    }
+    
+    private void UpdateTrayMenu()
+    {
         var menu = new NativeMenu();
 
-        // TODO: Add IP and Subnet info on Tray menu
-        
-        // var seperatorA = new NativeMenuItemSeparator();
-        // menu.Add(seperatorA);
+        // Get all interfaces, even those without IP
+        var interfaces = GetInterfaces.GetInterface(true);
 
+        foreach (var iface in interfaces)
+        {
+            var menuItem = new NativeMenuItem(iface.Name);
+            var submenu = new NativeMenu();
+
+            if (!string.IsNullOrEmpty(iface.Ip))
+            {
+                submenu.Add(new NativeMenuItem($"IP: {iface.Ip}")
+                {
+                    IsEnabled = false
+                });
+                
+                if (!string.IsNullOrEmpty(iface.Subnet))
+                {
+                    submenu.Add(new NativeMenuItem($"Subnet: {iface.Subnet}")
+                    {
+                        IsEnabled = false
+                    });
+                }
+                
+                submenu.Add(new NativeMenuItem($"DHCP: {(iface.Dhcp ? "Yes" : "No")}")
+                {
+                    IsEnabled = false
+                });
+            }
+            else
+            {
+                submenu.Add(new NativeMenuItem("No IP assigned")
+                {
+                    IsEnabled = false
+                });
+            }
+            
+            menuItem.Menu = submenu;
+            menu.Add(menuItem);
+        }
+        
+        // Add separator
+        menu.Add(new NativeMenuItemSeparator());
+
+        // Add standard menu items
         var openMenuItem = new NativeMenuItem("Open");
         openMenuItem.Click += TrayIcon_OnClicked;
         menu.Add(openMenuItem);
@@ -50,10 +102,13 @@ public partial class MainWindow : Window
         exitMenuItem.Click += ExitButton_OnClicked;
         menu.Add(exitMenuItem);
 
-        _trayIcon.Menu = menu;
-        _trayIcon.Clicked += TrayIcon_OnClicked;
-        
-        TrayIcon.SetIcons(Application.Current, new TrayIcons {_trayIcon});
+        // Update the tray icon menu
+        if (_trayIcon != null)
+        {
+            _trayIcon.Menu = menu;
+            _trayIcon.Clicked += TrayIcon_OnClicked;
+        }
+
     }
     
     private void TrayIcon_OnClicked(object? sender, EventArgs e)
@@ -243,4 +298,13 @@ public partial class MainWindow : Window
             lifetime.Shutdown();
         }
     }
+    
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        _refreshTimer.Stop();
+        _refreshTimer.Dispose();
+        _trayIcon?.Dispose();
+        base.OnUnloaded(e);
+    }
+
 }
