@@ -50,7 +50,7 @@ public partial class MainWindow : Window
     {
         var menu = new NativeMenu();
 
-        // Get all interfaces, even those without IP
+        // Get all interfaces with IP.
         var interfaces = GetInterfaces.GetInterface(true);
 
         foreach (var iface in interfaces)
@@ -92,6 +92,40 @@ public partial class MainWindow : Window
         
         // Add separator
         menu.Add(new NativeMenuItemSeparator());
+        
+        // Add preset list
+        var presetMenu = new NativeMenuItem("Presets");
+        var presetList = new NativeMenu();
+        var saved = GetSaved.GetSavedIps();
+        foreach (var savedIp in saved)
+        {
+            var menuItem = new NativeMenuItem(savedIp.Name);
+            var submenu = new NativeMenu();
+
+            foreach (var iface in interfaces)
+            {
+                if (string.IsNullOrEmpty(iface.Ip)) continue;
+                var item = new NativeMenuItem(iface.Name);
+                item.Click += (_, _) =>
+                {
+                    Console.WriteLine($"Setting {iface.Name} to {savedIp.Ip}/{savedIp.Subnet}");
+                    SetInterface.SetIp(iface.Name, savedIp.Ip, savedIp.Subnet);
+                    Thread.Sleep(500);
+                    if (DataContext is MainWindowViewModel viewModel) viewModel.RefreshInterfaces();
+                    UpdateTrayMenu();
+                };
+                submenu.Add(item);
+            }
+            menuItem.Menu = submenu;
+            presetList.Add(menuItem);
+        }
+        
+        presetMenu.Menu = presetList;
+        
+        menu.Add(presetMenu);
+        
+        // Add separator
+        menu.Add(new NativeMenuItemSeparator());
 
         // Add standard menu items
         var openMenuItem = new NativeMenuItem("Open");
@@ -103,6 +137,7 @@ public partial class MainWindow : Window
         menu.Add(exitMenuItem);
 
         // Update the tray icon menu
+        // ReSharper disable once InvertIf
         if (_trayIcon != null)
         {
             _trayIcon.Menu = menu;
