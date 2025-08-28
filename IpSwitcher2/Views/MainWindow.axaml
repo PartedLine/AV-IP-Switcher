@@ -1,14 +1,14 @@
-<Window xmlns="https://github.com/avaloniaui"
+<sukiUi:SukiWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:IpSwitcher2.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sukiUi="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="IpSwitcher2.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        TransparencyLevelHint="Mica"
-        Background="Transparent"
         Title="IP Switcher"
         x:CompileBindings="True">
 
@@ -17,6 +17,11 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
+    
+    <sukiUi:SukiWindow.RightWindowTitleBarControls>
+        <Button Content="{avalonia:MaterialIconExt Kind=ThemeLightDark}"
+                Click="Theme_OnClick"/>
+    </sukiUi:SukiWindow.RightWindowTitleBarControls>
 
     <Grid ColumnDefinitions="*,*" RowDefinitions="*,*, Auto">
         <ListBox ItemsSource="{Binding Addresses}" Grid.Row="0" Grid.Column="0"
@@ -87,8 +92,9 @@
                             <Button Grid.Column="1"
                                     HorizontalAlignment="Right" VerticalAlignment="Center"
                                     Click="DeleteButton_Click"
-                                    Margin="10,0,0,0">
-                                <PathIcon Data="{StaticResource TrashIcon}" />
+                                    Margin="10,0,0,0"
+                                    Content="{avalonia:MaterialIconExt Kind=TrashCan}">
+                                <!-- <PathIcon Data="{StaticResource TrashIcon}" /> -->
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -102,4 +108,4 @@
         </StackPanel>
 
     </Grid>
-</Window>
+</sukiUi:SukiWindow>

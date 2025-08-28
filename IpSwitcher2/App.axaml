@@ -3,6 +3,8 @@
              x:Class="IpSwitcher2.App"
              xmlns:local="using:IpSwitcher2"
              RequestedThemeVariant="Default"
+             xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:CompileBindings="True">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -15,6 +17,8 @@
     </Application.Resources>
 
     <Application.Styles>
-        <FluentTheme />
+        <sukiUi:SukiTheme ThemeColor="Blue"  />
+        <materialIcons:MaterialIconStyles />
+        <!-- <FluentTheme /> -->
     </Application.Styles>
 </Application>

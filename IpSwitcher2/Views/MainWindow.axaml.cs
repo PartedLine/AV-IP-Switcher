@@ -8,10 +8,12 @@ using IpSwitcher2.Models;
 using IpSwitcher2.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using SukiUI;
+using SukiUI.Controls;
 
 namespace IpSwitcher2.Views;
 
-public partial class MainWindow : Window
+public partial class MainWindow : SukiWindow
 {
     public MainWindow()
     {
@@ -176,5 +178,10 @@ public partial class MainWindow : Window
             {
                 if (DataContext is MainWindowViewModel viewModel) viewModel.RefreshSavedItems();
             });
+    }
+
+    private void Theme_OnClick(object? sender, RoutedEventArgs e)
+    {
+        SukiTheme.GetInstance().SwitchBaseTheme();
     }
 }
