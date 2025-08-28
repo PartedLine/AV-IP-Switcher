@@ -6,14 +6,14 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="IpSwitcher2.Views.IpSave"
         x:DataType="vm:IpSaveViewModel"
-        Width="400" Height="300"
+        Width="400" Height="320"
         WindowStartupLocation="CenterOwner"
         TransparencyLevelHint="Mica"
         Background="Transparent"
         ExtendClientAreaToDecorationsHint="True"
         Title="Save"
         x:CompileBindings="True">
-    <StackPanel Margin="20">
+    <StackPanel Margin="20 10">
         <TextBlock Margin="0 5">Name:</TextBlock>
         <TextBox GotFocus="Input_OnGotFocus" LostFocus="Input_OnLostFocus"
                  Name="Name" Text="{Binding Name}" Margin="0 0 0 5" />
