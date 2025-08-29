@@ -1,14 +1,16 @@
-<Window xmlns="https://github.com/avaloniaui"
+<sukiUi:SukiWindow IsMenuVisible="True"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:IpSwitcher2.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sukiUi="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:views="clr-namespace:IpSwitcher2.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="IpSwitcher2.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/icons8-ethernet-96.png"
-        TransparencyLevelHint="Mica"
-        Background="Transparent"
         Title="IP Switcher"
         x:CompileBindings="True">
 
@@ -18,15 +20,21 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
     
-    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto, Auto,*,*, Auto">
-        <Menu Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="12 0 12 3">
-            <MenuItem Header="About" Click="MenuItem_OnClick"></MenuItem>
-            <MenuItem Header="Exit" Click="MenuExit_OnClick"></MenuItem>
-        </Menu>
-        
-        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></Separator>
-        
-        <ListBox ItemsSource="{Binding Addresses}" Grid.Row="2" Grid.Column="0"
+    <sukiUi:SukiWindow.RightWindowTitleBarControls>
+        <Button Click="Theme_OnClick" Content="{avalonia:MaterialIconExt Kind=ThemeLightDark}"/>
+    </sukiUi:SukiWindow.RightWindowTitleBarControls>
+    
+    <sukiUi:SukiWindow.MenuItems>
+        <MenuItem Header="Exit" Click="MenuExit_OnClick" ></MenuItem>
+        <MenuItem Header="About" Click="MenuAbout_OnClick"></MenuItem>
+    </sukiUi:SukiWindow.MenuItems>
+    
+    <sukiUi:SukiWindow.Hosts>
+        <sukiUi:SukiDialogHost Name="DialogHost"></sukiUi:SukiDialogHost>
+    </sukiUi:SukiWindow.Hosts>
+    
+    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*,*, Auto">
+        <ListBox ItemsSource="{Binding Addresses}" Grid.Row="1" Grid.Column="0"
                  Background="Transparent" Margin="20 10 20 20" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -42,7 +50,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.RowSpan="2">
+        <ScrollViewer Grid.Row="2" Grid.Column="0" Grid.RowSpan="2">
             <StackPanel Orientation="Vertical" Margin="20">
                 <Grid ColumnDefinitions="*,Auto">
                     <TextBlock Margin="0 5" Grid.Column="0">
@@ -74,7 +82,7 @@
         </ScrollViewer>
 
         <ListBox ItemsSource="{Binding Saved}"
-                 Grid.Column="1" Grid.Row="2" Grid.RowSpan="2"
+                 Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
                  Background="Transparent" Margin="20 10 20 20"
                  Tapped="SavedList_OnTapped"
                  IsEnabled="True" Name="SavedList">
@@ -92,10 +100,11 @@
                                 <Run Text="{Binding Subnet}" />
                             </TextBlock>
                             <Button Grid.Column="1"
+                                    Content="{avalonia:MaterialIconExt Kind=TrashCan}"
                                     HorizontalAlignment="Right" VerticalAlignment="Center"
                                     Click="DeleteButton_Click"
                                     Margin="10,0,0,0">
-                                <PathIcon Data="{StaticResource TrashIcon}" />
+                                <!-- <PathIcon Data="{StaticResource TrashIcon}" /> -->
                             </Button>
                         </Grid>
                     </StackPanel>
@@ -103,10 +112,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" Margin="0, 20" HorizontalAlignment="Center">
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="0, 20" HorizontalAlignment="Center">
             <Button Name="Import" Content="Import" Click="Import_OnClick" Margin="0,0,15,0" />
             <Button Name="Export" Content="Export" Click="Export_OnClick" />
         </StackPanel>
 
     </Grid>
-</Window>
+</sukiUi:SukiWindow>

@@ -7,6 +7,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
+using IpSwitcher2.Classes;
 
 namespace IpSwitcher2;
 
@@ -34,6 +35,9 @@ internal sealed class Program
             
             Task.Run(ListenForConnections, _cancellationTokenSource.Token);
             Mutex.ReleaseMutex();
+            
+            // Load config
+            ConfigManager.LoadConfig();
             
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);

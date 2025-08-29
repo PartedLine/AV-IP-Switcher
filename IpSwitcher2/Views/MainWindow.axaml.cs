@@ -3,8 +3,11 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Documents;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -13,14 +16,19 @@ using IpSwitcher2.Models;
 using IpSwitcher2.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using SukiUI;
+using SukiUI.Controls;
+using SukiUI.Dialogs;
 using Timer = System.Timers.Timer;
 
 namespace IpSwitcher2.Views;
 
-public partial class MainWindow : Window
+public partial class MainWindow : SukiWindow
 {
     private TrayIcon? _trayIcon;
     private readonly Timer _refreshTimer;
+    
+    public static ISukiDialogManager DialogManager = new SukiDialogManager();
     
     public MainWindow()
     {
@@ -30,6 +38,12 @@ public partial class MainWindow : Window
         _refreshTimer.Elapsed += (_, _) => Dispatcher.UIThread.InvokeAsync(UpdateTrayMenu);
         _refreshTimer.Start();
         SetupTrayIcon();
+        DialogHost.Manager = DialogManager;
+        
+        if (ConfigManager.Config.FirstRun)
+        {
+            Show_FirstRun();
+        }
     }
 
     private void SetupTrayIcon()
@@ -174,7 +188,7 @@ public partial class MainWindow : Window
         viewModel.IsDhcp = selection.Dhcp;
 
         DhcpCheckBox.IsEnabled = true;
-        switch ((bool)DhcpCheckBox.IsChecked)
+        switch ((bool)DhcpCheckBox.IsChecked!)
         {
             case false:
                 IpBox.IsEnabled = true;
@@ -189,6 +203,8 @@ public partial class MainWindow : Window
                 IpButton.Content = "Set to DHCP";
                 break;
         }
+        
+        SavedList.SelectedItems?.Clear();
     }
 
     private void Ip_OnClick(object? sender, RoutedEventArgs e)
@@ -320,7 +336,7 @@ public partial class MainWindow : Window
             });
     }
 
-    private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
+    private void MenuAbout_OnClick(object? sender, RoutedEventArgs e)
     {
         var aboutWindow = new About();
         aboutWindow.ShowDialog(this);
@@ -342,4 +358,144 @@ public partial class MainWindow : Window
         base.OnUnloaded(e);
     }
 
+    private void Theme_OnClick(object? sender, RoutedEventArgs e)
+    {
+        SukiTheme.GetInstance().SwitchBaseTheme();
+    }
+
+    private void Show_FirstRun()
+    {
+        var textBlock = new TextBlock
+        {
+            TextWrapping = TextWrapping.Wrap,
+            Margin = new Thickness(10),
+            FontSize = 14
+        };
+
+        textBlock.Inlines = new InlineCollection
+        {
+            new Run("Welcome to IP Switcher!") { FontSize = 24, FontWeight = FontWeight.Bold},
+            new LineBreak(), new LineBreak(),
+            new Run("What is IP Switcher?") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run(
+                "A simple tool to manage and switch between IP configurations for your network interfaces." +
+                " Perfect for anyone who frequently needs to change network settings."),
+            new LineBreak(), new LineBreak(),
+
+            new Run("Key Features:") { FontWeight = FontWeight.Bold, FontSize = 18 },
+            new LineBreak(),
+
+            new Run("System Tray Integration") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run("• The app stays in your system tray with an Ethernet icon"),
+            new LineBreak(),
+            new Run("• Left-click the tray icon to open the main window"),
+            new LineBreak(),
+            new Run("• Right-click the tray icon to:"),
+            new LineBreak(),
+            new Run("  - View all network interfaces and their current IP settings"),
+            new LineBreak(),
+            new Run("  - Quick-access your saved IP presets"),
+            new LineBreak(),
+            new Run("  - Open the main window"),
+            new LineBreak(),
+            new Run("  - Exit the application"),
+            new LineBreak(), new LineBreak(),
+
+            new Run("Network Interface Management") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run("• View all your network interfaces in one place"),
+            new LineBreak(),
+            new Run("• For each interface you can:"),
+            new LineBreak(),
+            new Run("  - See current IP address and subnet mask"),
+            new LineBreak(),
+            new Run("  - Toggle between DHCP and static IP"),
+            new LineBreak(),
+            new Run("  - Set custom IP address and subnet mask"),
+            new LineBreak(),
+            new Run("  - View DHCP status"),
+            new LineBreak(), new LineBreak(),
+
+            new Run("IP Presets") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run("• Save frequently used IP configurations as presets"),
+            new LineBreak(),
+            new Run("• Apply presets to any network interface with just two clicks"),
+            new LineBreak(),
+            new Run("• Import/Export your presets to share between computers or colleagues"),
+            new LineBreak(),
+            new Run("• Delete presets you no longer need"),
+            new LineBreak(), new LineBreak(),
+            
+            new Run("Additional Features") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run("• Dark/Light theme toggle"),
+            new LineBreak(), new LineBreak(),
+            
+            new Run("Quick Start") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run("1. Click the Ethernet icon in your system tray to access quick controls"),
+            new LineBreak(),
+            new Run("2. Open the main window for full functionality"),
+            new LineBreak(),
+            new Run("3. Select a network interface from the list"),
+            new LineBreak(),
+            new Run("4. Either:"),
+            new LineBreak(),
+            new Run("  - Enable DHCP for automatic IP configuration"),
+            new LineBreak(),
+            new Run("  - Or disable DHCP to set a static IP address and subnet mask"),
+            new LineBreak(),
+            new Run("5. Save your common IP configurations as presets for quick access"),
+            new LineBreak(), new LineBreak(),
+            
+            new Run("Important Notes") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run("• This program requires administrator privileges."),
+            new Run("• The close button minimizes the app to the system tray"),
+            new LineBreak(),
+            new Run("• Use the Exit button in the menu or tray to completely close the application"),
+            new LineBreak(),
+            new Run("• Updates are automatically checked on startup"),
+            new LineBreak(),
+            new Run("• When available, updates can be downloaded from the provided link or through your package manager"),
+            new LineBreak(),
+            new Run("• This introduction will only show once unless the config file is deleted"),
+            new LineBreak(), new LineBreak(),
+
+            new Run("Tips") { FontWeight = FontWeight.Bold },
+            new LineBreak(),
+            new Run("• Keep the app running in the background for quick access"),
+            new LineBreak(),
+            new Run("• The system tray menu provides quick access to all interfaces and saved presets"),
+            new LineBreak(),
+            new Run("• Use the export feature to share configurations with colleagues"),
+            new LineBreak(),
+            new Run("• Use the refresh button to manually update network interface status")
+        };
+
+        var scrollViewer = new ScrollViewer
+        {
+            Content = textBlock,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            MaxHeight = 250,
+            MaxWidth = 600,
+            Padding = new Thickness(5)
+        };
+
+        DialogManager.CreateDialog()
+            .WithTitle("First Run Introduction")
+            .WithContent(scrollViewer)
+            .WithActionButton("Dismiss", _ => { FirstRunSuccess(); }, true)
+            .TryShow();
+    }
+
+    private void FirstRunSuccess()
+    {
+        ConfigManager.Config.FirstRun = false;
+        ConfigManager.SaveConfig();
+    }
 }

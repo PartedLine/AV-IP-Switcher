@@ -11,10 +11,11 @@ using IpSwitcher2.Models;
 using IpSwitcher2.ViewModels;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using SukiUI.Controls;
 
 namespace IpSwitcher2.Views;
 
-public partial class IpSave : Window
+public partial class IpSave : SukiWindow
 {
     public IpSave()
     {

@@ -1,4 +1,4 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+﻿<sukiUi:SukiWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,14 +6,13 @@
         x:Class="IpSwitcher2.Views.About"
         Width="300" Height="200"
         WindowStartupLocation="CenterOwner"
-        TransparencyLevelHint="Mica"
-        Background="Transparent"
-        ExtendClientAreaToDecorationsHint="True"
+        xmlns:sukiUi="clr-namespace:SukiUI.Controls;assembly=SukiUI"
         Title="About"
         x:CompileBindings="True">
+    
     <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock FontWeight="Bold" FontSize="32">IP Switcher</TextBlock>
         <TextBlock>Made by Klaas Bousma</TextBlock>
         <TextBlock>Application icon by Icons8</TextBlock>
     </StackPanel>
-</Window>
+</sukiUi:SukiWindow>
