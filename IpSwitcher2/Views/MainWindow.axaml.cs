@@ -454,6 +454,7 @@ public partial class MainWindow : SukiWindow
             new Run("Important Notes") { FontWeight = FontWeight.Bold },
             new LineBreak(),
             new Run("• This program requires administrator privileges."),
+            new LineBreak(),
             new Run("• The close button minimizes the app to the system tray"),
             new LineBreak(),
             new Run("• Use the Exit button in the menu or tray to completely close the application"),
@@ -493,7 +494,7 @@ public partial class MainWindow : SukiWindow
             .TryShow();
     }
 
-    private void FirstRunSuccess()
+    private static void FirstRunSuccess()
     {
         ConfigManager.Config.FirstRun = false;
         ConfigManager.SaveConfig();

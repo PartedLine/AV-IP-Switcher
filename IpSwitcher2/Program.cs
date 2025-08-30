@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
@@ -31,6 +33,30 @@ internal sealed class Program
         {
             // First instance: start pipe server and release mutex
             Console.WriteLine("Starting as first instance");
+            // If not running as admin, restart with admin rights
+            if (!Validations.IsRunAsAdmin())
+            {
+                try
+                {
+                    var processInfo = new ProcessStartInfo
+                    {
+                        FileName = Process.GetCurrentProcess().MainModule?.FileName,
+                        UseShellExecute = true,
+                        Verb = "runas" // This requests admin rights
+                    };
+
+                    Process.Start(processInfo);
+                    Environment.Exit(0);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to restart with admin rights: {ex.Message}");
+                    Environment.Exit(5);
+                    // Continue running without admin rights if elevation failed
+                }
+            }
+
             _cancellationTokenSource = new CancellationTokenSource();
             
             Task.Run(ListenForConnections, _cancellationTokenSource.Token);
@@ -80,18 +106,46 @@ internal sealed class Program
     private static async Task? ListenForConnections()
     {
         Console.WriteLine("Listening for connections...");
+        
+        // Allow non-admin processes to access the pipe
+        // Dynamic because PipeSecurity is Windows only
+        dynamic pipeSecurity = null;
+        if (OperatingSystem.IsWindows())
+        {
+            pipeSecurity = new PipeSecurity();
+            var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+            var accessRule = new PipeAccessRule(sid,
+                PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance,
+                System.Security.AccessControl.AccessControlType.Allow);
+            pipeSecurity.AddAccessRule(accessRule);
+        }
 
         while (!_cancellationTokenSource?.Token.IsCancellationRequested ?? false)
         {
             NamedPipeServerStream? pipeServer = null;
             try
             {
-                pipeServer = new NamedPipeServerStream(
-                    PipeName,
-                    PipeDirection.In,
-                    1,
-                    PipeTransmissionMode.Byte,
-                    PipeOptions.Asynchronous);
+                if (OperatingSystem.IsWindows())
+                {
+                    pipeServer = NamedPipeServerStreamAcl.Create(
+                        PipeName,
+                        PipeDirection.In,
+                        1,
+                        PipeTransmissionMode.Byte,
+                        PipeOptions.Asynchronous,
+                        0,  // default in buffer size
+                        0,  // default out buffer size
+                        pipeSecurity);
+                }
+                else
+                {
+                    pipeServer = new NamedPipeServerStream(
+                        PipeName,
+                        PipeDirection.In,
+                        1,
+                        PipeTransmissionMode.Byte,
+                        PipeOptions.Asynchronous);
+                }
 
                 // Wait for a connection
                 Console.WriteLine("Waiting for connection...");
