@@ -70,7 +70,7 @@
                 <TextBlock Margin="0 5">Subnet Mask:</TextBlock>
                 <TextBox GotFocus="Input_OnGotFocus" LostFocus="Input_OnLostFocus"
                          Name="SubnetBox" Text="{Binding Subnet}" />
-                <Grid Margin="0 20" ColumnDefinitions="*,*,Auto, Auto">
+                <Grid Margin="0 20" ColumnDefinitions="*,*,*">
                     <Button Name="IpButton" IsEnabled="False" Click="Ip_OnClick" Content="Set IP"
                             Initialized="Ip_OnInitialized" Grid.Column="0" />
                     <Button Name="Refresh" Content="Refresh Lists" Grid.Column="1"

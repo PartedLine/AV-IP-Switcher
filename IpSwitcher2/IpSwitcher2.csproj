@@ -6,7 +6,7 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-        <ApplicationIcon>Assets/avalonia-logo.ico</ApplicationIcon>
+        <ApplicationIcon>Assets/icons8-ethernet-96.ico</ApplicationIcon>
         <!--        <PublishAot>true</PublishAot>-->
         <!--        &lt;!&ndash; Recommended Avalonia trimming settings for Native AOT &ndash;&gt;-->
         <!--        <BuiltInComInteropSupport>false</BuiltInComInteropSupport>-->
