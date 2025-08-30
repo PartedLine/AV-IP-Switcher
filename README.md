@@ -17,11 +17,9 @@ Download the setup file from the [Releases tab](https://github.com/PartedLine/AV
     
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/ch6gB3X9/Ip-Switcher-khlz-PCm-CHv.png)
+![App Screenshot](https://i.ibb.co/4gFtHtWB/Ip-Switcher-YCXo0-GM2-XD.png)
 
-![App Screenshot](https://i.ibb.co/q3QWdvF7/Ip-Switcher-8d-Tx9p-EOei.png)
-
-![App Screenshot](https://i.ibb.co/21P1Lk1j/Ip-Switcher-q3-EDRdoh-Pi.png)
+![App Screenshot](https://i.ibb.co/N6yzrx5R/Ip-Switcher-TJDk-EQPkv-F.png)
 
 ## FAQ
 
