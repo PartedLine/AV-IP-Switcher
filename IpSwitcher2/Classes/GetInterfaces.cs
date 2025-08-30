@@ -9,7 +9,7 @@ namespace IpSwitcher2.Classes;
 
 public class GetInterfaces
 {
-    public static ObservableCollection<IpProperties> GetInterface()
+    public static ObservableCollection<IpProperties> GetInterface(bool filtered)
     {
         var interfaces = NetworkInterface.GetAllNetworkInterfaces()
             .Where(nic => nic is
@@ -26,7 +26,7 @@ public class GetInterfaces
             var ip = GetIPv4Address(_interface);
 
             // Continue if the interface has no IPv4 Address as we're not interested in it.
-            if (string.IsNullOrEmpty(ip)) continue;
+            if (filtered && string.IsNullOrEmpty(ip)) continue;
 
             var address = new IpProperties(
                 ip,

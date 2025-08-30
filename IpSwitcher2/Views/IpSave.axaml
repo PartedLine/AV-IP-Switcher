@@ -1,4 +1,4 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+﻿<sukiUi:SukiWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:IpSwitcher2.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,10 +6,9 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="IpSwitcher2.Views.IpSave"
         x:DataType="vm:IpSaveViewModel"
-        Width="400" Height="300"
+        Width="400" Height="325"
         WindowStartupLocation="CenterOwner"
-        TransparencyLevelHint="Mica"
-        Background="Transparent"
+        xmlns:sukiUi="clr-namespace:SukiUI.Controls;assembly=SukiUI"
         ExtendClientAreaToDecorationsHint="True"
         Title="Save"
         x:CompileBindings="True">
@@ -26,4 +25,4 @@
         <Button Name="Save" Content="Save" Margin="0 10" HorizontalAlignment="Center"
                 Click="Save_OnClick" />
     </StackPanel>
-</Window>
+</sukiUi:SukiWindow>

@@ -36,13 +36,19 @@ public class App : Application
             {
                 DataContext = new MainWindowViewModel()
             };
+
+            desktop.MainWindow.Closing += (sender, args) =>
+            {
+                args.Cancel = true;
+
+                desktop.MainWindow.Hide();
+            };
             
             // Check for updates
             desktop.MainWindow.Activated += async (sender, args) =>
             {
                 await UpdateChecker.CheckForUpdates();
             };
-
         }
 
         base.OnFrameworkInitializationCompleted();

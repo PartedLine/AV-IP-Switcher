@@ -17,7 +17,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        Addresses = GetInterfaces.GetInterface();
+        Addresses = GetInterfaces.GetInterface(true);
         Saved = GetSaved.GetSavedIps();
     }
 
@@ -46,31 +46,6 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             throw new Exception("Failed to delete saved IP");
         }
-
-
-        // var appDataPath = Path.Combine(
-        //     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        //     "IpSwitcher");
-        // var filePath = Path.Combine(appDataPath, "saved_addresses.xml");
-        //
-        // if (!File.Exists(filePath)) return;
-        //
-        // try
-        // {
-        //     using var reader = new StreamReader(filePath);
-        //     var list = (List<IpCompact>)new XmlSerializer(typeof(List<IpCompact>)).Deserialize(reader)!;
-        //     reader.Close();
-        //     list.RemoveAll(x => x.Id == ipCompact.Id);
-        //     using var writer = new StreamWriter(filePath);
-        //     new XmlSerializer(typeof(List<IpCompact>)).Serialize(writer, list);
-        //     writer.Close();
-        //
-        //     RefreshSavedItems();
-        // }
-        // catch (Exception)
-        // {
-        //     throw new Exception("Something went wrong");
-        // }
     }
 
 
@@ -83,6 +58,6 @@ public partial class MainWindowViewModel : ViewModelBase
     public void RefreshInterfaces()
     {
         Addresses.Clear();
-        Addresses = GetInterfaces.GetInterface();
+        Addresses = GetInterfaces.GetInterface(true);
     }
 }

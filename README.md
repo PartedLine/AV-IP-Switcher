@@ -2,9 +2,9 @@
 # AV IP Switcher
 
 ![GitHub License](https://img.shields.io/github/license/PartedLine/AV-IP-Switcher?style=for-the-badge)
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PartedLine/AV-IP-Switcher/total?style=for-the-badge)](https://github.com/PartedLine/AV-IP-Switcher/releases/latest/download/IpSwitcher_v1-1-0_Setup.exe)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PartedLine/AV-IP-Switcher/total?style=for-the-badge)](https://github.com/PartedLine/AV-IP-Switcher/releases/latest/download/IpSwitcher_Setup.exe)
 
-[Download here!](https://github.com/PartedLine/AV-IP-Switcher/releases/download/1.1.0/IpSwitcher_v1-1-0_Setup.exe)
+[Download here!](https://github.com/PartedLine/AV-IP-Switcher/releases/latest/download/IpSwitcher_Setup.exe)
 
 An easy to use IP switcher with a save feature for the AV world.
 
@@ -17,11 +17,9 @@ Download the setup file from the [Releases tab](https://github.com/PartedLine/AV
     
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/ch6gB3X9/Ip-Switcher-khlz-PCm-CHv.png)
+![App Screenshot](https://i.ibb.co/4gFtHtWB/Ip-Switcher-YCXo0-GM2-XD.png)
 
-![App Screenshot](https://i.ibb.co/q3QWdvF7/Ip-Switcher-8d-Tx9p-EOei.png)
-
-![App Screenshot](https://i.ibb.co/21P1Lk1j/Ip-Switcher-q3-EDRdoh-Pi.png)
+![App Screenshot](https://i.ibb.co/N6yzrx5R/Ip-Switcher-TJDk-EQPkv-F.png)
 
 ## FAQ
 
@@ -32,3 +30,8 @@ Netsh requires it in order to change IP addresses.
 #### It doesn't show the interface I want to change!
 
 The program only shows interfaces that already have an IP, which is usually only those already in a network. Connect another device to whatever port you want to change, wait a bit and refresh the list.
+
+## Credits
+[Icons8](https://icons8.com/) for the logo
+
+[Avalonia](https://avaloniaui.net/) for the UI Framework
