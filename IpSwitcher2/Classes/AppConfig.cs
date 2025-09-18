@@ -32,6 +32,11 @@ public static class ConfigManager
 
     public static void SaveConfig()
     {
+        if (!Directory.Exists(FileService.AppDataPath))
+        {
+            Directory.CreateDirectory(FileService.AppDataPath);
+        }
+        
         var jsonString = JsonSerializer.Serialize(_config, Options);
         File.WriteAllText(ConfigPath, jsonString);
     }
